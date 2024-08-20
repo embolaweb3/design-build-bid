@@ -4,6 +4,8 @@ import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { FaHammer } from "react-icons/fa";
 import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
@@ -33,19 +35,33 @@ export const HeaderMenuLinks = () => {
     <>
       {menuLinks.map(({ label, href, icon }) => {
         const isActive = pathname === href;
+
         return (
-          <li key={href}>
-            <Link
-              href={href}
-              passHref
-              className={`${
-                isActive ? "bg-secondary shadow-md" : ""
-              } hover:bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
-            >
-              {icon}
-              <span>{label}</span>
-            </Link>
-          </li>
+          <motion.header
+            key={href}
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white shadow-lg flex justify-between items-center"
+          >
+            <motion.h1 whileHover={{ scale: 1.1 }} className="text-2xl font-bold flex items-center space-x-2">
+              <FaHammer className="w-8 h-8" />
+              <span>DesignBuildBid</span>
+              <li key={href}>
+                <Link
+                  href={href}
+                  passHref
+                  className={`${
+                    isActive ? "bg-secondary shadow-md" : ""
+                  } hover:bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
+                >
+                  {icon}
+                  <span>{label}</span>
+                </Link>
+              </li>
+            </motion.h1>
+            {/* <ConnectButton /> */}
+          </motion.header>
         );
       })}
     </>
