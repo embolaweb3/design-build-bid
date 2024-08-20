@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     DesignBuildBid: {
-      address: "0x24130EB93FC405f96A54416bC013efc259E4Ab8D",
+      address: "0x6d33d2769E9a4E108bDE18De5d7706EDF65D53F9",
       abi: [
         {
           anonymous: false,
@@ -280,6 +280,76 @@ const deployedContracts = {
               internalType: "bool",
               name: "resolved",
               type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "fetchProjects",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint256",
+                  name: "id",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address",
+                  name: "owner",
+                  type: "address",
+                },
+                {
+                  internalType: "string",
+                  name: "description",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "budget",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "deadline",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "active",
+                  type: "bool",
+                },
+                {
+                  internalType: "address",
+                  name: "selectedBidder",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256[]",
+                  name: "milestones",
+                  type: "uint256[]",
+                },
+                {
+                  internalType: "bool[]",
+                  name: "milestonePaid",
+                  type: "bool[]",
+                },
+                {
+                  internalType: "bool",
+                  name: "disputeRaised",
+                  type: "bool",
+                },
+                {
+                  internalType: "uint256",
+                  name: "selectedBidIndex",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct DesignBuildBid.Project[]",
+              name: "",
+              type: "tuple[]",
             },
           ],
           stateMutability: "view",
