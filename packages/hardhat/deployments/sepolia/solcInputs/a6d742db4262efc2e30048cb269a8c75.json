@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/DesignBuildBid.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract DesignBuildBid {\n    struct Project {\n        uint id;\n        address owner;\n        string description;\n        uint budget;\n        uint deadline;\n        bool active;\n        address selectedBidder;\n        uint[] milestones;\n        bool[] milestonePaid;\n        bool disputeRaised;\n        uint selectedBidIndex;\n    }\n\n    struct Bid {\n        uint projectId;\n        address bidder;\n        uint bidAmount;\n        uint completionTime;\n        uint[] proposedMilestones;\n        bool selected;\n    }\n\n    struct Dispute {\n        uint projectId;\n        address disputant;\n        string reason;\n        mapping(address => bool) votes;\n        uint yesVotes;\n        uint noVotes;\n        bool resolved;\n    }\n\n    uint public projectCount;\n    uint public bidCount;\n    uint public disputeCount;\n\n    mapping(uint => Project) public projects;\n    mapping(uint => Bid[]) public bids;\n    mapping(uint => Dispute) public disputes;\n\n    event ProjectPosted(uint projectId, address owner, string description, uint budget, uint deadline);\n    event BidSubmitted(uint bidId, uint projectId, address bidder, uint bidAmount, uint completionTime);\n    event BidSelected(uint projectId, address selectedBidder);\n    event MilestonePaid(uint projectId, uint milestoneIndex);\n    event DisputeRaised(uint disputeId, uint projectId, address disputant, string reason);\n    event DisputeResolved(uint disputeId, bool result);\n\n    modifier onlyProjectOwner(uint _projectId) {\n        require(msg.sender == projects[_projectId].owner, \"Only the project owner can perform this action\");\n        _;\n    }\n\n    modifier onlySelectedBidder(uint _projectId) {\n        require(msg.sender == projects[_projectId].selectedBidder, \"Only the selected bidder can perform this action\");\n        _;\n    }\n\n    // Project owner posts a new project\n    function postProject(string memory _description, uint _budget, uint _deadline, uint[] memory _milestones) public {\n        require(_milestones.length > 0, \"There must be at least one milestone\");\n        projectCount++;\n        projects[projectCount] = Project(projectCount, msg.sender, _description, _budget, _deadline, true, address(0), _milestones, new bool[](_milestones.length), false, 0);\n        emit ProjectPosted(projectCount, msg.sender, _description, _budget, _deadline);\n    }\n\n    // Contractors submit bids\n    function submitBid(uint _projectId, uint _bidAmount, uint _completionTime, uint[] memory _proposedMilestones) public {\n        require(projects[_projectId].active, \"Project is not active\");\n        require(_proposedMilestones.length == projects[_projectId].milestones.length, \"Milestones count mismatch\");\n\n        bidCount++;\n        bids[_projectId].push(Bid(_projectId, msg.sender, _bidAmount, _completionTime, _proposedMilestones, false));\n        emit BidSubmitted(bidCount, _projectId, msg.sender, _bidAmount, _completionTime);\n    }\n\n    // Project owner selects a bid\n    function selectBid(uint _projectId, uint _bidIndex) public onlyProjectOwner(_projectId) {\n        require(bids[_projectId][_bidIndex].bidder != address(0), \"Bid does not exist\");\n        require(!projects[_projectId].disputeRaised, \"Cannot select bid during dispute\");\n\n        projects[_projectId].selectedBidder = bids[_projectId][_bidIndex].bidder;\n        bids[_projectId][_bidIndex].selected = true;\n        projects[_projectId].active = false; // Project is no longer active once a bid is selected\n        projects[_projectId].selectedBidIndex = _bidIndex;\n        emit BidSelected(_projectId, bids[_projectId][_bidIndex].bidder);\n    }\n\n    // Release payment for a milestone\n    function releaseMilestonePayment(uint _projectId, uint _milestoneIndex) public onlyProjectOwner(_projectId) {\n        require(projects[_projectId].selectedBidder != address(0), \"No bid selected\");\n        require(!projects[_projectId].milestonePaid[_milestoneIndex], \"Milestone already paid\");\n        require(_milestoneIndex < projects[_projectId].milestones.length, \"Invalid milestone index\");\n        require(!projects[_projectId].disputeRaised, \"Cannot release payment during dispute\");\n\n        uint payment = projects[_projectId].milestones[_milestoneIndex];\n        projects[_projectId].milestonePaid[_milestoneIndex] = true;\n        (bool success,) = payable(projects[_projectId].selectedBidder).call{value : payment}(\"\");\n        require(success, 'Transfer failed');\n        emit MilestonePaid(_projectId, _milestoneIndex);\n    }\n\n    // Raise a dispute\n    function raiseDispute(uint _projectId, string memory _reason) public onlySelectedBidder(_projectId) {\n        require(!projects[_projectId].disputeRaised, \"Dispute already raised for this project\");\n\n        disputeCount++;\n        Dispute storage dispute = disputes[disputeCount];\n        dispute.projectId = _projectId;\n        dispute.disputant = msg.sender;\n        dispute.reason = _reason;\n        projects[_projectId].disputeRaised = true;\n        emit DisputeRaised(disputeCount, _projectId, msg.sender, _reason);\n    }\n\n    // Vote on a dispute (by any stakeholder)\n    function voteOnDispute(uint _disputeId, bool _vote) public {\n        require(!disputes[_disputeId].resolved, \"Dispute already resolved\");\n        require(!disputes[_disputeId].votes[msg.sender], \"You have already voted on this dispute\");\n\n        disputes[_disputeId].votes[msg.sender] = true;\n        if (_vote) {\n            disputes[_disputeId].yesVotes++;\n        } else {\n            disputes[_disputeId].noVotes++;\n        }\n\n        // Resolve the dispute if a majority is reached\n        if (disputes[_disputeId].yesVotes > disputes[_disputeId].noVotes) {\n            disputes[_disputeId].resolved = true;\n            _resolveDispute(_disputeId, true);\n        } else if (disputes[_disputeId].noVotes > disputes[_disputeId].yesVotes) {\n            disputes[_disputeId].resolved = true;\n            _resolveDispute(_disputeId, false);\n        }\n    }\n\n    function _resolveDispute(uint _disputeId, bool result) internal {\n        uint projectId = disputes[_disputeId].projectId;\n        projects[projectId].disputeRaised = false;\n        emit DisputeResolved(_disputeId, result);\n    }\n\n    // Fallback function to accept Ether\n    receive() external payable {}\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
