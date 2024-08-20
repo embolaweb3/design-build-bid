@@ -1,0 +1,850 @@
+{
+  "address": "0x24130EB93FC405f96A54416bC013efc259E4Ab8D",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "projectId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "selectedBidder",
+          "type": "address"
+        }
+      ],
+      "name": "BidSelected",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "bidId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "projectId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "bidder",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "bidAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "completionTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "BidSubmitted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "disputeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "projectId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "disputant",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "name": "DisputeRaised",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "disputeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "result",
+          "type": "bool"
+        }
+      ],
+      "name": "DisputeResolved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "projectId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "milestoneIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "MilestonePaid",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "projectId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "budget",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        }
+      ],
+      "name": "ProjectPosted",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "bidCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "bids",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "projectId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "bidder",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "bidAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "completionTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "selected",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "disputeCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "disputes",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "projectId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "disputant",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "yesVotes",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "noVotes",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "resolved",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_budget",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_deadline",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_milestones",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "postProject",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "projectCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "projects",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "budget",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "active",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "selectedBidder",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "disputeRaised",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "selectedBidIndex",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_projectId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_reason",
+          "type": "string"
+        }
+      ],
+      "name": "raiseDispute",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_projectId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_milestoneIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "releaseMilestonePayment",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_projectId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_bidIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "selectBid",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_projectId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_bidAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_completionTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_proposedMilestones",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "submitBid",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_disputeId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_vote",
+          "type": "bool"
+        }
+      ],
+      "name": "voteOnDispute",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "transactionHash": "0xc4b9ee293fc3977925718d4b51007c886885fafcdcb8596faadb9f5284defb4a",
+  "receipt": {
+    "to": null,
+    "from": "0x160e1026eF610aDb83002Bf8D93335321DeB75fD",
+    "contractAddress": "0x24130EB93FC405f96A54416bC013efc259E4Ab8D",
+    "transactionIndex": 61,
+    "gasUsed": "1469475",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x69cbb90a20fd250d424819c68f6c762cafc2954bb325e35ae5e74039873a8b22",
+    "transactionHash": "0xc4b9ee293fc3977925718d4b51007c886885fafcdcb8596faadb9f5284defb4a",
+    "logs": [],
+    "blockNumber": 6538902,
+    "cumulativeGasUsed": "9631534",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "a6d742db4262efc2e30048cb269a8c75",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"projectId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"selectedBidder\",\"type\":\"address\"}],\"name\":\"BidSelected\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"projectId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"bidder\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"completionTime\",\"type\":\"uint256\"}],\"name\":\"BidSubmitted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"disputeId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"projectId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"disputant\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"reason\",\"type\":\"string\"}],\"name\":\"DisputeRaised\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"disputeId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"result\",\"type\":\"bool\"}],\"name\":\"DisputeResolved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"projectId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"milestoneIndex\",\"type\":\"uint256\"}],\"name\":\"MilestonePaid\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"projectId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"budget\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"deadline\",\"type\":\"uint256\"}],\"name\":\"ProjectPosted\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"bidCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bids\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"projectId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"bidder\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"bidAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"completionTime\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"selected\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"disputeCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"disputes\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"projectId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"disputant\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"reason\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"yesVotes\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"noVotes\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"resolved\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_description\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_budget\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_deadline\",\"type\":\"uint256\"},{\"internalType\":\"uint256[]\",\"name\":\"_milestones\",\"type\":\"uint256[]\"}],\"name\":\"postProject\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"projectCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"projects\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"budget\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"deadline\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"active\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"selectedBidder\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"disputeRaised\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"selectedBidIndex\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_projectId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"_reason\",\"type\":\"string\"}],\"name\":\"raiseDispute\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_projectId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_milestoneIndex\",\"type\":\"uint256\"}],\"name\":\"releaseMilestonePayment\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_projectId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_bidIndex\",\"type\":\"uint256\"}],\"name\":\"selectBid\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_projectId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_bidAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_completionTime\",\"type\":\"uint256\"},{\"internalType\":\"uint256[]\",\"name\":\"_proposedMilestones\",\"type\":\"uint256[]\"}],\"name\":\"submitBid\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_disputeId\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"_vote\",\"type\":\"bool\"}],\"name\":\"voteOnDispute\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/DesignBuildBid.sol\":\"DesignBuildBid\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/DesignBuildBid.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\ncontract DesignBuildBid {\\n    struct Project {\\n        uint id;\\n        address owner;\\n        string description;\\n        uint budget;\\n        uint deadline;\\n        bool active;\\n        address selectedBidder;\\n        uint[] milestones;\\n        bool[] milestonePaid;\\n        bool disputeRaised;\\n        uint selectedBidIndex;\\n    }\\n\\n    struct Bid {\\n        uint projectId;\\n        address bidder;\\n        uint bidAmount;\\n        uint completionTime;\\n        uint[] proposedMilestones;\\n        bool selected;\\n    }\\n\\n    struct Dispute {\\n        uint projectId;\\n        address disputant;\\n        string reason;\\n        mapping(address => bool) votes;\\n        uint yesVotes;\\n        uint noVotes;\\n        bool resolved;\\n    }\\n\\n    uint public projectCount;\\n    uint public bidCount;\\n    uint public disputeCount;\\n\\n    mapping(uint => Project) public projects;\\n    mapping(uint => Bid[]) public bids;\\n    mapping(uint => Dispute) public disputes;\\n\\n    event ProjectPosted(uint projectId, address owner, string description, uint budget, uint deadline);\\n    event BidSubmitted(uint bidId, uint projectId, address bidder, uint bidAmount, uint completionTime);\\n    event BidSelected(uint projectId, address selectedBidder);\\n    event MilestonePaid(uint projectId, uint milestoneIndex);\\n    event DisputeRaised(uint disputeId, uint projectId, address disputant, string reason);\\n    event DisputeResolved(uint disputeId, bool result);\\n\\n    modifier onlyProjectOwner(uint _projectId) {\\n        require(msg.sender == projects[_projectId].owner, \\\"Only the project owner can perform this action\\\");\\n        _;\\n    }\\n\\n    modifier onlySelectedBidder(uint _projectId) {\\n        require(msg.sender == projects[_projectId].selectedBidder, \\\"Only the selected bidder can perform this action\\\");\\n        _;\\n    }\\n\\n    // Project owner posts a new project\\n    function postProject(string memory _description, uint _budget, uint _deadline, uint[] memory _milestones) public {\\n        require(_milestones.length > 0, \\\"There must be at least one milestone\\\");\\n        projectCount++;\\n        projects[projectCount] = Project(projectCount, msg.sender, _description, _budget, _deadline, true, address(0), _milestones, new bool[](_milestones.length), false, 0);\\n        emit ProjectPosted(projectCount, msg.sender, _description, _budget, _deadline);\\n    }\\n\\n    // Contractors submit bids\\n    function submitBid(uint _projectId, uint _bidAmount, uint _completionTime, uint[] memory _proposedMilestones) public {\\n        require(projects[_projectId].active, \\\"Project is not active\\\");\\n        require(_proposedMilestones.length == projects[_projectId].milestones.length, \\\"Milestones count mismatch\\\");\\n\\n        bidCount++;\\n        bids[_projectId].push(Bid(_projectId, msg.sender, _bidAmount, _completionTime, _proposedMilestones, false));\\n        emit BidSubmitted(bidCount, _projectId, msg.sender, _bidAmount, _completionTime);\\n    }\\n\\n    // Project owner selects a bid\\n    function selectBid(uint _projectId, uint _bidIndex) public onlyProjectOwner(_projectId) {\\n        require(bids[_projectId][_bidIndex].bidder != address(0), \\\"Bid does not exist\\\");\\n        require(!projects[_projectId].disputeRaised, \\\"Cannot select bid during dispute\\\");\\n\\n        projects[_projectId].selectedBidder = bids[_projectId][_bidIndex].bidder;\\n        bids[_projectId][_bidIndex].selected = true;\\n        projects[_projectId].active = false; // Project is no longer active once a bid is selected\\n        projects[_projectId].selectedBidIndex = _bidIndex;\\n        emit BidSelected(_projectId, bids[_projectId][_bidIndex].bidder);\\n    }\\n\\n    // Release payment for a milestone\\n    function releaseMilestonePayment(uint _projectId, uint _milestoneIndex) public onlyProjectOwner(_projectId) {\\n        require(projects[_projectId].selectedBidder != address(0), \\\"No bid selected\\\");\\n        require(!projects[_projectId].milestonePaid[_milestoneIndex], \\\"Milestone already paid\\\");\\n        require(_milestoneIndex < projects[_projectId].milestones.length, \\\"Invalid milestone index\\\");\\n        require(!projects[_projectId].disputeRaised, \\\"Cannot release payment during dispute\\\");\\n\\n        uint payment = projects[_projectId].milestones[_milestoneIndex];\\n        projects[_projectId].milestonePaid[_milestoneIndex] = true;\\n        (bool success,) = payable(projects[_projectId].selectedBidder).call{value : payment}(\\\"\\\");\\n        require(success, 'Transfer failed');\\n        emit MilestonePaid(_projectId, _milestoneIndex);\\n    }\\n\\n    // Raise a dispute\\n    function raiseDispute(uint _projectId, string memory _reason) public onlySelectedBidder(_projectId) {\\n        require(!projects[_projectId].disputeRaised, \\\"Dispute already raised for this project\\\");\\n\\n        disputeCount++;\\n        Dispute storage dispute = disputes[disputeCount];\\n        dispute.projectId = _projectId;\\n        dispute.disputant = msg.sender;\\n        dispute.reason = _reason;\\n        projects[_projectId].disputeRaised = true;\\n        emit DisputeRaised(disputeCount, _projectId, msg.sender, _reason);\\n    }\\n\\n    // Vote on a dispute (by any stakeholder)\\n    function voteOnDispute(uint _disputeId, bool _vote) public {\\n        require(!disputes[_disputeId].resolved, \\\"Dispute already resolved\\\");\\n        require(!disputes[_disputeId].votes[msg.sender], \\\"You have already voted on this dispute\\\");\\n\\n        disputes[_disputeId].votes[msg.sender] = true;\\n        if (_vote) {\\n            disputes[_disputeId].yesVotes++;\\n        } else {\\n            disputes[_disputeId].noVotes++;\\n        }\\n\\n        // Resolve the dispute if a majority is reached\\n        if (disputes[_disputeId].yesVotes > disputes[_disputeId].noVotes) {\\n            disputes[_disputeId].resolved = true;\\n            _resolveDispute(_disputeId, true);\\n        } else if (disputes[_disputeId].noVotes > disputes[_disputeId].yesVotes) {\\n            disputes[_disputeId].resolved = true;\\n            _resolveDispute(_disputeId, false);\\n        }\\n    }\\n\\n    function _resolveDispute(uint _disputeId, bool result) internal {\\n        uint projectId = disputes[_disputeId].projectId;\\n        projects[projectId].disputeRaised = false;\\n        emit DisputeResolved(_disputeId, result);\\n    }\\n\\n    // Fallback function to accept Ether\\n    receive() external payable {}\\n}\",\"keccak256\":\"0xa1df56a26c2aad165a11423fa290db7d7674131162a991a7a0fb0d7c7e2451f1\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061199e806100206000396000f3fe6080604052600436106100ab5760003560e01c80638c936e65116100645780638c936e65146101df578063a28889e1146101ff578063a4f5df1214610215578063b40a562714610235578063ca41222c1461024b578063d6f5f1201461026b57600080fd5b80630fe5f7c0146100b7578063107046bd146100d957806336fbad2614610117578063564a565d1461013b5780635aef573c1461016d5780637b3c4baa1461018d57600080fd5b366100b257005b600080fd5b3480156100c357600080fd5b506100d76100d2366004611440565b61028b565b005b3480156100e557600080fd5b506100f96100f436600461149a565b610470565b60405161010e999897969594939291906114f9565b60405180910390f35b34801561012357600080fd5b5061012d60005481565b60405190815260200161010e565b34801561014757600080fd5b5061015b61015636600461149a565b61055c565b60405161010e9695949392919061155c565b34801561017957600080fd5b506100d7610188366004611616565b610628565b34801561019957600080fd5b506101ad6101a836600461165d565b6107c3565b604080519586526001600160a01b0390941660208601529284019190915260608301521515608082015260a00161010e565b3480156101eb57600080fd5b506100d76101fa36600461165d565b61081e565b34801561020b57600080fd5b5061012d60025481565b34801561022157600080fd5b506100d761023036600461167f565b610b7c565b34801561024157600080fd5b5061012d60015481565b34801561025757600080fd5b506100d76102663660046116b4565b610d66565b34801561027757600080fd5b506100d761028636600461165d565b610fb9565b60008481526003602052604090206005015460ff166102e95760405162461bcd60e51b815260206004820152601560248201527450726f6a656374206973206e6f742061637469766560581b60448201526064015b60405180910390fd5b60008481526003602052604090206006015481511461034a5760405162461bcd60e51b815260206004820152601960248201527f4d696c6573746f6e657320636f756e74206d69736d617463680000000000000060448201526064016102e0565b6001805490600061035a8361171f565b90915550506000848152600460208181526040808420815160c08101835289815233818501908152928101898152606082018981526080830189815260a08401899052845460018082018755958a529887902084516006909a0201988955945193880180546001600160a01b0319166001600160a01b039095169490941790935551600287015590516003860155905180519194936103ff939085019291019061127d565b5060a0918201516005909101805460ff19169115159190911790556001546040805191825260208201879052339082015260608101859052608081018490527fbdfcb6ed10473990c43d94b0d61dbc59818d6a21583ff27de888bc74a6f3c2ec91015b60405180910390a150505050565b60036020526000908152604090208054600182015460028301805492936001600160a01b03909216926104a290611746565b80601f01602080910402602001604051908101604052809291908181526020018280546104ce90611746565b801561051b5780601f106104f05761010080835404028352916020019161051b565b820191906000526020600020905b8154815290600101906020018083116104fe57829003601f168201915b5050505060038301546004840154600585015460088601546009909601549495929491935060ff808216936101009092046001600160a01b03169291169089565b60056020526000908152604090208054600182015460028301805492936001600160a01b039092169261058e90611746565b80601f01602080910402602001604051908101604052809291908181526020018280546105ba90611746565b80156106075780601f106105dc57610100808354040283529160200191610607565b820191906000526020600020905b8154815290600101906020018083116105ea57829003601f168201915b50505050600483015460058401546006909401549293909290915060ff1686565b600082815260036020526040902060050154829061010090046001600160a01b031633146106b15760405162461bcd60e51b815260206004820152603060248201527f4f6e6c79207468652073656c6563746564206269646465722063616e2070657260448201526f3337b936903a3434b99030b1ba34b7b760811b60648201526084016102e0565b60008381526003602052604090206008015460ff16156107235760405162461bcd60e51b815260206004820152602760248201527f4469737075746520616c72656164792072616973656420666f722074686973206044820152661c1c9bda9958dd60ca1b60648201526084016102e0565b600280549060006107338361171f565b90915550506002805460009081526005602052604090208481556001810180546001600160a01b0319163317905590810161076e84826117cf565b5060008481526003602052604090819020600801805460ff1916600117905560025490517f23c31c3c42269d2f1541faecb93f9273532cfaa63b3b9cb5ab733358ac289e3b916104629187903390889061188f565b600460205281600052604060002081815481106107df57600080fd5b6000918252602090912060069091020180546001820154600283015460038401546005909401549295506001600160a01b039091169350919060ff1685565b60008281526003602052604090206001015482906001600160a01b031633146108595760405162461bcd60e51b81526004016102e0906118c6565b60008381526003602052604090206005015461010090046001600160a01b03166108b75760405162461bcd60e51b815260206004820152600f60248201526e139bc8189a59081cd95b1958dd1959608a1b60448201526064016102e0565b60008381526003602052604090206007018054839081106108da576108da611914565b90600052602060002090602091828204019190069054906101000a900460ff16156109405760405162461bcd60e51b8152602060048201526016602482015275135a5b195cdd1bdb9948185b1c9958591e481c185a5960521b60448201526064016102e0565b60008381526003602052604090206006015482106109a05760405162461bcd60e51b815260206004820152601760248201527f496e76616c6964206d696c6573746f6e6520696e64657800000000000000000060448201526064016102e0565b60008381526003602052604090206008015460ff1615610a105760405162461bcd60e51b815260206004820152602560248201527f43616e6e6f742072656c65617365207061796d656e7420647572696e67206469604482015264737075746560d81b60648201526084016102e0565b6000838152600360205260408120600601805484908110610a3357610a33611914565b906000526020600020015490506001600360008681526020019081526020016000206007018481548110610a6957610a69611914565b60009182526020808320818304018054941515601f90931661010090810a93840260ff909402199095169290921790915586825260039052604080822060050154905191926001600160a01b039104169083908381818185875af1925050503d8060008114610af4576040519150601f19603f3d011682016040523d82523d6000602084013e610af9565b606091505b5050905080610b3c5760405162461bcd60e51b815260206004820152600f60248201526e151c985b9cd9995c8819985a5b1959608a1b60448201526064016102e0565b60408051868152602081018690527f3af368126e502abc57fe61217a2e2ffc37e0753a9bc218ab9976a49a996e4449910160405180910390a15050505050565b60008281526005602052604090206006015460ff1615610bde5760405162461bcd60e51b815260206004820152601860248201527f4469737075746520616c7265616479207265736f6c766564000000000000000060448201526064016102e0565b600082815260056020908152604080832033845260030190915290205460ff1615610c5a5760405162461bcd60e51b815260206004820152602660248201527f596f75206861766520616c726561647920766f746564206f6e2074686973206460448201526569737075746560d01b60648201526084016102e0565b60008281526005602090815260408083203384526003019091529020805460ff191660011790558015610cae576000828152600560205260408120600401805491610ca48361171f565b9190505550610cd1565b6000828152600560208190526040822001805491610ccb8361171f565b91905055505b6000828152600560208190526040909120908101546004909101541115610d20576000828152600560205260409020600601805460ff19166001908117909155610d1c90839061121e565b5050565b600082815260056020819052604090912060048101549101541115610d1c576000828152600560205260408120600601805460ff19166001179055610d1c90839061121e565b6000815111610dc35760405162461bcd60e51b8152602060048201526024808201527f5468657265206d757374206265206174206c65617374206f6e65206d696c6573604482015263746f6e6560e01b60648201526084016102e0565b600080549080610dd28361171f565b91905055506040518061016001604052806000548152602001336001600160a01b0316815260200185815260200184815260200183815260200160011515815260200160006001600160a01b03168152602001828152602001825167ffffffffffffffff811115610e4557610e45611379565b604051908082528060200260200182016040528015610e6e578160200160208202803683370190505b50815260006020808301829052604092830182905281548252600381529082902083518155908301516001820180546001600160a01b0319166001600160a01b03909216919091179055908201516002820190610ecb90826117cf565b50606082015160038201556080820151600482015560a082015160058201805460c08501516001600160a01b031661010002610100600160a81b0319931515939093166001600160a81b03199091161791909117905560e08201518051610f3c91600684019160209091019061127d565b506101008201518051610f599160078401916020909101906112c8565b5061012082015160088201805460ff1916911515919091179055610140909101516009909101556000546040517fcac535a9bcf7cb249f2e995ffbf4e8b3f0eb137c80b35cf2c9bb39c671c5b5e09161046291339088908890889061192a565b60008281526003602052604090206001015482906001600160a01b03163314610ff45760405162461bcd60e51b81526004016102e0906118c6565b600083815260046020526040812080548490811061101457611014611914565b60009182526020909120600160069092020101546001600160a01b0316036110735760405162461bcd60e51b8152602060048201526012602482015271109a5908191bd95cc81b9bdd08195e1a5cdd60721b60448201526064016102e0565b60008381526003602052604090206008015460ff16156110d55760405162461bcd60e51b815260206004820181905260248201527f43616e6e6f742073656c6563742062696420647572696e67206469737075746560448201526064016102e0565b60008381526004602052604090208054839081106110f5576110f5611914565b60009182526020808320600160069093020182015486845260038252604080852060050180546001600160a01b0390931661010002610100600160a81b031990931692909217909155600490915290912080548490811061115857611158611914565b6000918252602080832060056006909302018201805494151560ff1995861617905586835260038152604080842092830180549095169094556009909101859055600490522080547fc7a71766df0606748db2559b408ea09aa6b63a9c7fd3915f3fa327b2e01a493c918591859081106111d4576111d4611914565b600091825260209091206001600690920201015460405161121192916001600160a01b0316909182526001600160a01b0316602082015260400190565b60405180910390a1505050565b6000828152600560209081526040808320548084526003835292819020600801805460ff191690558051858152841515928101929092527f5a87909bff68caaaaf0b3fd9c74eeccc928832f879315e5c6fb7a73612f26c0c9101611211565b8280548282559060005260206000209081019282156112b8579160200282015b828111156112b857825182559160200191906001019061129d565b506112c4929150611364565b5090565b82805482825590600052602060002090601f016020900481019282156112b85791602002820160005b8382111561132e57835183826101000a81548160ff02191690831515021790555092602001926001016020816000010492830192600103026112f1565b801561135b5782816101000a81549060ff021916905560010160208160000104928301926001030261132e565b50506112c49291505b5b808211156112c45760008155600101611365565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff811182821017156113b8576113b8611379565b604052919050565b600082601f8301126113d157600080fd5b8135602067ffffffffffffffff8211156113ed576113ed611379565b8160051b6113fc82820161138f565b928352848101820192828101908785111561141657600080fd5b83870192505b848310156114355782358252918301919083019061141c565b979650505050505050565b6000806000806080858703121561145657600080fd5b843593506020850135925060408501359150606085013567ffffffffffffffff81111561148257600080fd5b61148e878288016113c0565b91505092959194509250565b6000602082840312156114ac57600080fd5b5035919050565b6000815180845260005b818110156114d9576020818501810151868301820152016114bd565b506000602082860101526020601f19601f83011685010191505092915050565b8981526001600160a01b038981166020830152610120604083018190526000916115258483018c6114b3565b606085019a909a526080840198909852505093151560a08501529190931660c083015291151560e082015261010001529392505050565b8681526001600160a01b038616602082015260c060408201819052600090611586908301876114b3565b6060830195909552506080810192909252151560a0909101529392505050565b600082601f8301126115b757600080fd5b813567ffffffffffffffff8111156115d1576115d1611379565b6115e4601f8201601f191660200161138f565b8181528460208386010111156115f957600080fd5b816020850160208301376000918101602001919091529392505050565b6000806040838503121561162957600080fd5b82359150602083013567ffffffffffffffff81111561164757600080fd5b611653858286016115a6565b9150509250929050565b6000806040838503121561167057600080fd5b50508035926020909101359150565b6000806040838503121561169257600080fd5b82359150602083013580151581146116a957600080fd5b809150509250929050565b600080600080608085870312156116ca57600080fd5b843567ffffffffffffffff808211156116e257600080fd5b6116ee888389016115a6565b95506020870135945060408701359350606087013591508082111561171257600080fd5b5061148e878288016113c0565b60006001820161173f57634e487b7160e01b600052601160045260246000fd5b5060010190565b600181811c9082168061175a57607f821691505b60208210810361177a57634e487b7160e01b600052602260045260246000fd5b50919050565b601f8211156117ca57600081815260208120601f850160051c810160208610156117a75750805b601f850160051c820191505b818110156117c6578281556001016117b3565b5050505b505050565b815167ffffffffffffffff8111156117e9576117e9611379565b6117fd816117f78454611746565b84611780565b602080601f831160018114611832576000841561181a5750858301515b600019600386901b1c1916600185901b1785556117c6565b600085815260208120601f198616915b8281101561186157888601518255948401946001909101908401611842565b508582101561187f5787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b84815283602082015260018060a01b03831660408201526080606082015260006118bc60808301846114b3565b9695505050505050565b6020808252602e908201527f4f6e6c79207468652070726f6a656374206f776e65722063616e20706572666f60408201526d3936903a3434b99030b1ba34b7b760911b606082015260800190565b634e487b7160e01b600052603260045260246000fd5b8581526001600160a01b038516602082015260a060408201819052600090611954908301866114b3565b60608301949094525060800152939250505056fea26469706673582212201b25291544269870997c1fdcb7c5c4f8603c00b22153a38c5bb6320ccea203f764736f6c63430008110033",
+  "deployedBytecode": "0x6080604052600436106100ab5760003560e01c80638c936e65116100645780638c936e65146101df578063a28889e1146101ff578063a4f5df1214610215578063b40a562714610235578063ca41222c1461024b578063d6f5f1201461026b57600080fd5b80630fe5f7c0146100b7578063107046bd146100d957806336fbad2614610117578063564a565d1461013b5780635aef573c1461016d5780637b3c4baa1461018d57600080fd5b366100b257005b600080fd5b3480156100c357600080fd5b506100d76100d2366004611440565b61028b565b005b3480156100e557600080fd5b506100f96100f436600461149a565b610470565b60405161010e999897969594939291906114f9565b60405180910390f35b34801561012357600080fd5b5061012d60005481565b60405190815260200161010e565b34801561014757600080fd5b5061015b61015636600461149a565b61055c565b60405161010e9695949392919061155c565b34801561017957600080fd5b506100d7610188366004611616565b610628565b34801561019957600080fd5b506101ad6101a836600461165d565b6107c3565b604080519586526001600160a01b0390941660208601529284019190915260608301521515608082015260a00161010e565b3480156101eb57600080fd5b506100d76101fa36600461165d565b61081e565b34801561020b57600080fd5b5061012d60025481565b34801561022157600080fd5b506100d761023036600461167f565b610b7c565b34801561024157600080fd5b5061012d60015481565b34801561025757600080fd5b506100d76102663660046116b4565b610d66565b34801561027757600080fd5b506100d761028636600461165d565b610fb9565b60008481526003602052604090206005015460ff166102e95760405162461bcd60e51b815260206004820152601560248201527450726f6a656374206973206e6f742061637469766560581b60448201526064015b60405180910390fd5b60008481526003602052604090206006015481511461034a5760405162461bcd60e51b815260206004820152601960248201527f4d696c6573746f6e657320636f756e74206d69736d617463680000000000000060448201526064016102e0565b6001805490600061035a8361171f565b90915550506000848152600460208181526040808420815160c08101835289815233818501908152928101898152606082018981526080830189815260a08401899052845460018082018755958a529887902084516006909a0201988955945193880180546001600160a01b0319166001600160a01b039095169490941790935551600287015590516003860155905180519194936103ff939085019291019061127d565b5060a0918201516005909101805460ff19169115159190911790556001546040805191825260208201879052339082015260608101859052608081018490527fbdfcb6ed10473990c43d94b0d61dbc59818d6a21583ff27de888bc74a6f3c2ec91015b60405180910390a150505050565b60036020526000908152604090208054600182015460028301805492936001600160a01b03909216926104a290611746565b80601f01602080910402602001604051908101604052809291908181526020018280546104ce90611746565b801561051b5780601f106104f05761010080835404028352916020019161051b565b820191906000526020600020905b8154815290600101906020018083116104fe57829003601f168201915b5050505060038301546004840154600585015460088601546009909601549495929491935060ff808216936101009092046001600160a01b03169291169089565b60056020526000908152604090208054600182015460028301805492936001600160a01b039092169261058e90611746565b80601f01602080910402602001604051908101604052809291908181526020018280546105ba90611746565b80156106075780601f106105dc57610100808354040283529160200191610607565b820191906000526020600020905b8154815290600101906020018083116105ea57829003601f168201915b50505050600483015460058401546006909401549293909290915060ff1686565b600082815260036020526040902060050154829061010090046001600160a01b031633146106b15760405162461bcd60e51b815260206004820152603060248201527f4f6e6c79207468652073656c6563746564206269646465722063616e2070657260448201526f3337b936903a3434b99030b1ba34b7b760811b60648201526084016102e0565b60008381526003602052604090206008015460ff16156107235760405162461bcd60e51b815260206004820152602760248201527f4469737075746520616c72656164792072616973656420666f722074686973206044820152661c1c9bda9958dd60ca1b60648201526084016102e0565b600280549060006107338361171f565b90915550506002805460009081526005602052604090208481556001810180546001600160a01b0319163317905590810161076e84826117cf565b5060008481526003602052604090819020600801805460ff1916600117905560025490517f23c31c3c42269d2f1541faecb93f9273532cfaa63b3b9cb5ab733358ac289e3b916104629187903390889061188f565b600460205281600052604060002081815481106107df57600080fd5b6000918252602090912060069091020180546001820154600283015460038401546005909401549295506001600160a01b039091169350919060ff1685565b60008281526003602052604090206001015482906001600160a01b031633146108595760405162461bcd60e51b81526004016102e0906118c6565b60008381526003602052604090206005015461010090046001600160a01b03166108b75760405162461bcd60e51b815260206004820152600f60248201526e139bc8189a59081cd95b1958dd1959608a1b60448201526064016102e0565b60008381526003602052604090206007018054839081106108da576108da611914565b90600052602060002090602091828204019190069054906101000a900460ff16156109405760405162461bcd60e51b8152602060048201526016602482015275135a5b195cdd1bdb9948185b1c9958591e481c185a5960521b60448201526064016102e0565b60008381526003602052604090206006015482106109a05760405162461bcd60e51b815260206004820152601760248201527f496e76616c6964206d696c6573746f6e6520696e64657800000000000000000060448201526064016102e0565b60008381526003602052604090206008015460ff1615610a105760405162461bcd60e51b815260206004820152602560248201527f43616e6e6f742072656c65617365207061796d656e7420647572696e67206469604482015264737075746560d81b60648201526084016102e0565b6000838152600360205260408120600601805484908110610a3357610a33611914565b906000526020600020015490506001600360008681526020019081526020016000206007018481548110610a6957610a69611914565b60009182526020808320818304018054941515601f90931661010090810a93840260ff909402199095169290921790915586825260039052604080822060050154905191926001600160a01b039104169083908381818185875af1925050503d8060008114610af4576040519150601f19603f3d011682016040523d82523d6000602084013e610af9565b606091505b5050905080610b3c5760405162461bcd60e51b815260206004820152600f60248201526e151c985b9cd9995c8819985a5b1959608a1b60448201526064016102e0565b60408051868152602081018690527f3af368126e502abc57fe61217a2e2ffc37e0753a9bc218ab9976a49a996e4449910160405180910390a15050505050565b60008281526005602052604090206006015460ff1615610bde5760405162461bcd60e51b815260206004820152601860248201527f4469737075746520616c7265616479207265736f6c766564000000000000000060448201526064016102e0565b600082815260056020908152604080832033845260030190915290205460ff1615610c5a5760405162461bcd60e51b815260206004820152602660248201527f596f75206861766520616c726561647920766f746564206f6e2074686973206460448201526569737075746560d01b60648201526084016102e0565b60008281526005602090815260408083203384526003019091529020805460ff191660011790558015610cae576000828152600560205260408120600401805491610ca48361171f565b9190505550610cd1565b6000828152600560208190526040822001805491610ccb8361171f565b91905055505b6000828152600560208190526040909120908101546004909101541115610d20576000828152600560205260409020600601805460ff19166001908117909155610d1c90839061121e565b5050565b600082815260056020819052604090912060048101549101541115610d1c576000828152600560205260408120600601805460ff19166001179055610d1c90839061121e565b6000815111610dc35760405162461bcd60e51b8152602060048201526024808201527f5468657265206d757374206265206174206c65617374206f6e65206d696c6573604482015263746f6e6560e01b60648201526084016102e0565b600080549080610dd28361171f565b91905055506040518061016001604052806000548152602001336001600160a01b0316815260200185815260200184815260200183815260200160011515815260200160006001600160a01b03168152602001828152602001825167ffffffffffffffff811115610e4557610e45611379565b604051908082528060200260200182016040528015610e6e578160200160208202803683370190505b50815260006020808301829052604092830182905281548252600381529082902083518155908301516001820180546001600160a01b0319166001600160a01b03909216919091179055908201516002820190610ecb90826117cf565b50606082015160038201556080820151600482015560a082015160058201805460c08501516001600160a01b031661010002610100600160a81b0319931515939093166001600160a81b03199091161791909117905560e08201518051610f3c91600684019160209091019061127d565b506101008201518051610f599160078401916020909101906112c8565b5061012082015160088201805460ff1916911515919091179055610140909101516009909101556000546040517fcac535a9bcf7cb249f2e995ffbf4e8b3f0eb137c80b35cf2c9bb39c671c5b5e09161046291339088908890889061192a565b60008281526003602052604090206001015482906001600160a01b03163314610ff45760405162461bcd60e51b81526004016102e0906118c6565b600083815260046020526040812080548490811061101457611014611914565b60009182526020909120600160069092020101546001600160a01b0316036110735760405162461bcd60e51b8152602060048201526012602482015271109a5908191bd95cc81b9bdd08195e1a5cdd60721b60448201526064016102e0565b60008381526003602052604090206008015460ff16156110d55760405162461bcd60e51b815260206004820181905260248201527f43616e6e6f742073656c6563742062696420647572696e67206469737075746560448201526064016102e0565b60008381526004602052604090208054839081106110f5576110f5611914565b60009182526020808320600160069093020182015486845260038252604080852060050180546001600160a01b0390931661010002610100600160a81b031990931692909217909155600490915290912080548490811061115857611158611914565b6000918252602080832060056006909302018201805494151560ff1995861617905586835260038152604080842092830180549095169094556009909101859055600490522080547fc7a71766df0606748db2559b408ea09aa6b63a9c7fd3915f3fa327b2e01a493c918591859081106111d4576111d4611914565b600091825260209091206001600690920201015460405161121192916001600160a01b0316909182526001600160a01b0316602082015260400190565b60405180910390a1505050565b6000828152600560209081526040808320548084526003835292819020600801805460ff191690558051858152841515928101929092527f5a87909bff68caaaaf0b3fd9c74eeccc928832f879315e5c6fb7a73612f26c0c9101611211565b8280548282559060005260206000209081019282156112b8579160200282015b828111156112b857825182559160200191906001019061129d565b506112c4929150611364565b5090565b82805482825590600052602060002090601f016020900481019282156112b85791602002820160005b8382111561132e57835183826101000a81548160ff02191690831515021790555092602001926001016020816000010492830192600103026112f1565b801561135b5782816101000a81549060ff021916905560010160208160000104928301926001030261132e565b50506112c49291505b5b808211156112c45760008155600101611365565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff811182821017156113b8576113b8611379565b604052919050565b600082601f8301126113d157600080fd5b8135602067ffffffffffffffff8211156113ed576113ed611379565b8160051b6113fc82820161138f565b928352848101820192828101908785111561141657600080fd5b83870192505b848310156114355782358252918301919083019061141c565b979650505050505050565b6000806000806080858703121561145657600080fd5b843593506020850135925060408501359150606085013567ffffffffffffffff81111561148257600080fd5b61148e878288016113c0565b91505092959194509250565b6000602082840312156114ac57600080fd5b5035919050565b6000815180845260005b818110156114d9576020818501810151868301820152016114bd565b506000602082860101526020601f19601f83011685010191505092915050565b8981526001600160a01b038981166020830152610120604083018190526000916115258483018c6114b3565b606085019a909a526080840198909852505093151560a08501529190931660c083015291151560e082015261010001529392505050565b8681526001600160a01b038616602082015260c060408201819052600090611586908301876114b3565b6060830195909552506080810192909252151560a0909101529392505050565b600082601f8301126115b757600080fd5b813567ffffffffffffffff8111156115d1576115d1611379565b6115e4601f8201601f191660200161138f565b8181528460208386010111156115f957600080fd5b816020850160208301376000918101602001919091529392505050565b6000806040838503121561162957600080fd5b82359150602083013567ffffffffffffffff81111561164757600080fd5b611653858286016115a6565b9150509250929050565b6000806040838503121561167057600080fd5b50508035926020909101359150565b6000806040838503121561169257600080fd5b82359150602083013580151581146116a957600080fd5b809150509250929050565b600080600080608085870312156116ca57600080fd5b843567ffffffffffffffff808211156116e257600080fd5b6116ee888389016115a6565b95506020870135945060408701359350606087013591508082111561171257600080fd5b5061148e878288016113c0565b60006001820161173f57634e487b7160e01b600052601160045260246000fd5b5060010190565b600181811c9082168061175a57607f821691505b60208210810361177a57634e487b7160e01b600052602260045260246000fd5b50919050565b601f8211156117ca57600081815260208120601f850160051c810160208610156117a75750805b601f850160051c820191505b818110156117c6578281556001016117b3565b5050505b505050565b815167ffffffffffffffff8111156117e9576117e9611379565b6117fd816117f78454611746565b84611780565b602080601f831160018114611832576000841561181a5750858301515b600019600386901b1c1916600185901b1785556117c6565b600085815260208120601f198616915b8281101561186157888601518255948401946001909101908401611842565b508582101561187f5787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b84815283602082015260018060a01b03831660408201526080606082015260006118bc60808301846114b3565b9695505050505050565b6020808252602e908201527f4f6e6c79207468652070726f6a656374206f776e65722063616e20706572666f60408201526d3936903a3434b99030b1ba34b7b760911b606082015260800190565b634e487b7160e01b600052603260045260246000fd5b8581526001600160a01b038516602082015260a060408201819052600090611954908301866114b3565b60608301949094525060800152939250505056fea26469706673582212201b25291544269870997c1fdcb7c5c4f8603c00b22153a38c5bb6320ccea203f764736f6c63430008110033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 59,
+        "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+        "label": "projectCount",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 61,
+        "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+        "label": "bidCount",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 63,
+        "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+        "label": "disputeCount",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 68,
+        "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+        "label": "projects",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_uint256,t_struct(Project)26_storage)"
+      },
+      {
+        "astId": 74,
+        "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+        "label": "bids",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_uint256,t_array(t_struct(Bid)40_storage)dyn_storage)"
+      },
+      {
+        "astId": 79,
+        "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+        "label": "disputes",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_uint256,t_struct(Dispute)57_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_bool)dyn_storage": {
+        "base": "t_bool",
+        "encoding": "dynamic_array",
+        "label": "bool[]",
+        "numberOfBytes": "32"
+      },
+      "t_array(t_struct(Bid)40_storage)dyn_storage": {
+        "base": "t_struct(Bid)40_storage",
+        "encoding": "dynamic_array",
+        "label": "struct DesignBuildBid.Bid[]",
+        "numberOfBytes": "32"
+      },
+      "t_array(t_uint256)dyn_storage": {
+        "base": "t_uint256",
+        "encoding": "dynamic_array",
+        "label": "uint256[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_mapping(t_uint256,t_array(t_struct(Bid)40_storage)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct DesignBuildBid.Bid[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_struct(Bid)40_storage)dyn_storage"
+      },
+      "t_mapping(t_uint256,t_struct(Dispute)57_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct DesignBuildBid.Dispute)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Dispute)57_storage"
+      },
+      "t_mapping(t_uint256,t_struct(Project)26_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct DesignBuildBid.Project)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Project)26_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(Bid)40_storage": {
+        "encoding": "inplace",
+        "label": "struct DesignBuildBid.Bid",
+        "members": [
+          {
+            "astId": 28,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "projectId",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 30,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "bidder",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address"
+          },
+          {
+            "astId": 32,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "bidAmount",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 34,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "completionTime",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 37,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "proposedMilestones",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_array(t_uint256)dyn_storage"
+          },
+          {
+            "astId": 39,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "selected",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "192"
+      },
+      "t_struct(Dispute)57_storage": {
+        "encoding": "inplace",
+        "label": "struct DesignBuildBid.Dispute",
+        "members": [
+          {
+            "astId": 42,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "projectId",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 44,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "disputant",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address"
+          },
+          {
+            "astId": 46,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "reason",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 50,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "votes",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_address,t_bool)"
+          },
+          {
+            "astId": 52,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "yesVotes",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 54,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "noVotes",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 56,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "resolved",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "224"
+      },
+      "t_struct(Project)26_storage": {
+        "encoding": "inplace",
+        "label": "struct DesignBuildBid.Project",
+        "members": [
+          {
+            "astId": 3,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "id",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 5,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "owner",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address"
+          },
+          {
+            "astId": 7,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "description",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 9,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "budget",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 11,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "deadline",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 13,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "active",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_bool"
+          },
+          {
+            "astId": 15,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "selectedBidder",
+            "offset": 1,
+            "slot": "5",
+            "type": "t_address"
+          },
+          {
+            "astId": 18,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "milestones",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_array(t_uint256)dyn_storage"
+          },
+          {
+            "astId": 21,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "milestonePaid",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_array(t_bool)dyn_storage"
+          },
+          {
+            "astId": 23,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "disputeRaised",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_bool"
+          },
+          {
+            "astId": 25,
+            "contract": "contracts/DesignBuildBid.sol:DesignBuildBid",
+            "label": "selectedBidIndex",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "320"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
