@@ -145,6 +145,16 @@ contract DesignBuildBid {
         emit DisputeResolved(_disputeId, result);
     }
 
+    // Fetch all projects
+    function fetchProjects() public view returns (Project[] memory) {
+        Project[] memory allProjects = new Project[](projectCount);
+        for (uint i = 1; i <= projectCount; i++) {
+            allProjects[i - 1] = projects[i];
+        }
+        return allProjects;
+    }
+
+
     // Fallback function to accept Ether
     receive() external payable {}
 }
