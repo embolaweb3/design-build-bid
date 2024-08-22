@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "DesignBuildBid": {
+      "address": "0x6d33d2769E9a4E108bDE18De5d7706EDF65D53F9",
+      "startBlock": 6539649
+    }
+  }
+}
