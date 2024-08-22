@@ -8,6 +8,7 @@ import BidForm from '../components/BidForm';
 import DisputeForm from '../components/DisputeForm';
 import deployedContracts from "~~/contracts/deployedContracts";
 import PostProjectForm from '../components/PostProjectForm';
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const contractABI = deployedContracts[11155111].DesignBuildBid.abi;
 const contractAddress = deployedContracts[11155111].DesignBuildBid.address;
@@ -21,6 +22,7 @@ if (typeof window !== "undefined") {
 const Home =()=> {
   const { address } = useAccount();
   const [projects, setProjects] = useState([]);
+  const [ retreivedProjects, setRetrievedProjects] = useState()
   const [selectedProject, setSelectedProject] = useState(null);
   const [contract, setContract] = useState(null)
 
@@ -36,6 +38,46 @@ const Home =()=> {
 
   });
 
+  useEffect(() => {
+    apolloClient
+      .query({ query: retreiveProjects })
+      .then(res => {
+        setRetrievedProjects(res.data.ProjectPosted);
+      })
+      .catch(error => {
+        console.error("Error fetching notarized documents:", error);
+      });
+    })
+    
+
+  const apolloClient = new ApolloClient({
+    uri: "https://api.studio.thegraph.com/query/87090/design-build-bid/version/latest",
+    cache: new InMemoryCache(),
+  });
+
+  const retreiveProjects = gql`
+  query {
+    ProjectPosted(first: 20) {
+      projectId
+      owner
+      description
+      budget
+      deadline
+    }
+  }
+`;
+
+
+const retrieveBids = gql`
+query {
+   bidSubmitteds(first: 10) {
+    id
+    bidId
+    projectId
+    bidder
+  }
+}
+`;
   const fetchProjects = async () => {
     if(!contract) return
 
