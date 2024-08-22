@@ -11,11 +11,11 @@ export default function BidForm({ onSubmit }) {
   };
 
   return (
-    <motion.div 
+    <div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.7 }}
-      className="bg-white bg-opacity-60 p-6 rounded-xl shadow-lg backdrop-blur-lg"
+      className="bg-black bg-opacity-60 p-6 rounded-xl shadow-lg backdrop-blur-lg"
     >
       <h3 className="text-xl font-semibold mb-4">Submit a Bid</h3>
       <div className="mb-4">
@@ -44,6 +44,6 @@ export default function BidForm({ onSubmit }) {
       >
         Submit
       </motion.button>
-    </motion.div>
+    </div>
   );
 }

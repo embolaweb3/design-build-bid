@@ -1,0 +1,61 @@
+type BidSelected @entity(immutable: true) {
+  id: Bytes!
+  projectId: BigInt! # uint256
+  selectedBidder: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type BidSubmitted @entity(immutable: true) {
+  id: Bytes!
+  bidId: BigInt! # uint256
+  projectId: BigInt! # uint256
+  bidder: Bytes! # address
+  bidAmount: BigInt! # uint256
+  completionTime: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DisputeRaised @entity(immutable: true) {
+  id: Bytes!
+  disputeId: BigInt! # uint256
+  projectId: BigInt! # uint256
+  disputant: Bytes! # address
+  reason: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DisputeResolved @entity(immutable: true) {
+  id: Bytes!
+  disputeId: BigInt! # uint256
+  result: Boolean! # bool
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type MilestonePaid @entity(immutable: true) {
+  id: Bytes!
+  projectId: BigInt! # uint256
+  milestoneIndex: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ProjectPosted @entity(immutable: true) {
+  id: Bytes!
+  projectId: BigInt! # uint256
+  owner: Bytes! # address
+  description: String! # string
+  budget: BigInt! # uint256
+  deadline: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

@@ -7,7 +7,6 @@ import ProjectCard from '../components/ProjectCard'
 import BidForm from '../components/BidForm';
 import DisputeForm from '../components/DisputeForm';
 import deployedContracts from "~~/contracts/deployedContracts";
-import PostProjectForm from '../components/PostProjectForm';
 
 const contractABI = deployedContracts[11155111].DesignBuildBid.abi;
 const contractAddress = deployedContracts[11155111].DesignBuildBid.address;
@@ -18,7 +17,7 @@ if (typeof window !== "undefined") {
 }
 
 
-const Home =()=> {
+export default function Home() {
   const { address } = useAccount();
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -62,26 +61,6 @@ const Home =()=> {
     }
   };
 
-  const postProject = async (projectData) => {
-    if (!contract) return;
-
-    const { description, budget, deadline, milestones } = projectData;
-
-    try {
-      const tx = await contract.postProject(
-        description,
-        ethers.parseEther(budget),
-        Math.floor(new Date(deadline).getTime() / 1000), // Convert deadline to Unix timestamp
-        milestones.map(milestone => ethers.parseEther(milestone)) // Convert milestones to wei
-      );
-      await tx.wait();
-      alert('Project posted successfully');
-      fetchProjects(); // Refresh projects to include the newly posted project
-    } catch (error) {
-      console.error("Error posting project:", error);
-    }
-  };
-
   const raiseDispute = async (disputeData) => {
     // Implement dispute raising logic
   };
@@ -89,8 +68,7 @@ const Home =()=> {
   return (
     <div className="bg-gradient-to-br from-gray-200 to-gray-400 min-h-screen">
       <main className="container mx-auto p-4 space-y-6">
-      <PostProjectForm onSubmit={postProject} />
-
+        <h1>Hello world</h1>
         {projects?.map((project) => (
           <ProjectCard 
           key={project.id}
@@ -110,5 +88,3 @@ const Home =()=> {
     </div>
   );
 }
-
-export default Home
