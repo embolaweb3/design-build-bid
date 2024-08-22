@@ -1,7 +1,6 @@
 type BidSelected @entity(immutable: true) {
   id: Bytes!
   projectId: BigInt! # uint256
-  project: ProjectPosted @derivedFrom(field: "projectId")
   selectedBidder: Bytes! # address
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -12,7 +11,6 @@ type BidSubmitted @entity(immutable: true) {
   id: Bytes!
   bidId: BigInt! # uint256
   projectId: BigInt! # uint256
-  project: ProjectPosted @derivedFrom(field: "projectId")
   bidder: Bytes! # address
   bidAmount: BigInt! # uint256
   completionTime: BigInt! # uint256
@@ -25,19 +23,16 @@ type DisputeRaised @entity(immutable: true) {
   id: Bytes!
   disputeId: BigInt! # uint256
   projectId: BigInt! # uint256
-  project: ProjectPosted @derivedFrom(field: "projectId")
   disputant: Bytes! # address
   reason: String! # string
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
-  resolution: DisputeResolved @derivedFrom(field: "disputeId")
 }
 
 type DisputeResolved @entity(immutable: true) {
   id: Bytes!
   disputeId: BigInt! # uint256
-  dispute: DisputeRaised @derivedFrom(field: "disputeId")
   result: Boolean! # bool
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -47,7 +42,6 @@ type DisputeResolved @entity(immutable: true) {
 type MilestonePaid @entity(immutable: true) {
   id: Bytes!
   projectId: BigInt! # uint256
-  project: ProjectPosted @derivedFrom(field: "projectId")
   milestoneIndex: BigInt! # uint256
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -64,8 +58,4 @@ type ProjectPosted @entity(immutable: true) {
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
-  bids: [BidSubmitted!]! @derivedFrom(field: "projectId")
-  selectedBid: BidSelected @derivedFrom(field: "projectId")
-  milestones: [MilestonePaid!]! @derivedFrom(field: "projectId")
-  disputes: [DisputeRaised!]! @derivedFrom(field: "projectId")
 }
