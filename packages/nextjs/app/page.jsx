@@ -31,17 +31,15 @@ const Home =()=> {
     const provider = new ethers.providers.Web3Provider(wallet); 
     const signer = provider.getSigner(); 
     const contract = new ethers.Contract(contractAddress, contractABI, signer); 
-    console.log(contract)
     setContract(contract)
-    // fetchProjects();
+    fetchProjects();
 
-  }, []);
+  });
 
   const fetchProjects = async () => {
     if(!contract) return
 
     const projects = await contract.fetchProjects();
-    console.log(projects)
     setProjects(projects);
   };
 
@@ -84,7 +82,16 @@ const Home =()=> {
   };
 
   const raiseDispute = async (disputeData) => {
-    // Implement dispute raising logic
+    if (!contract || !selectedProject) return;
+
+    try {
+      const tx = await contract.raiseDispute(selectedProject.id, disputeData.reason);
+      await tx.wait();
+      alert('Dispute raised successfully');
+      fetchProjects(); // Refresh projects to update state
+    } catch (error) {
+      console.error("Error raising dispute:", error);
+    }
   };
 
   return (
