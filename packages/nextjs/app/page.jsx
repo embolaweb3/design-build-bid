@@ -20,7 +20,6 @@ if (typeof window !== "undefined") {
 
 
 const Home =()=> {
-  const { address } = useAccount();
   const [projects, setProjects] = useState([]);
   const [ retreivedProjects, setRetrievedProjects] = useState()
   const [selectedProject, setSelectedProject] = useState(null);
@@ -48,7 +47,7 @@ const Home =()=> {
         console.error("Error fetching notarized documents:", error);
       });
     })
-    
+
 
   const apolloClient = new ApolloClient({
     uri: "https://api.studio.thegraph.com/query/87090/design-build-bid/version/latest",
