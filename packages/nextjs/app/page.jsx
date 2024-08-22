@@ -28,11 +28,12 @@ const Home =()=> {
   useEffect(() => {
     if(!wallet) return
 
-    const provider = new ethers.BrowserProvider(wallet); 
+    const provider = new ethers.providers.Web3Provider(wallet); 
     const signer = provider.getSigner(); 
     const contract = new ethers.Contract(contractAddress, contractABI, signer); 
+    console.log(contract)
     setContract(contract)
-    fetchProjects();
+    // fetchProjects();
 
   }, []);
 
@@ -50,7 +51,7 @@ const Home =()=> {
     try {
       const tx = await contract.submitBid(
         selectedProject.id,
-        ethers.parseEther(bidData.bidAmount),
+        ethers.utils.parseEther(bidData.bidAmount),
         bidData.completionTime,
         bidData.milestones
       );
@@ -70,9 +71,9 @@ const Home =()=> {
     try {
       const tx = await contract.postProject(
         description,
-        ethers.parseEther(budget),
+        ethers.utils.parseEther(budget),
         Math.floor(new Date(deadline).getTime() / 1000), // Convert deadline to Unix timestamp
-        milestones.map(milestone => ethers.parseEther(milestone)) // Convert milestones to wei
+        milestones.map(milestone => ethers.utils.parseEther(milestone)) // Convert milestones to wei
       );
       await tx.wait();
       alert('Project posted successfully');
