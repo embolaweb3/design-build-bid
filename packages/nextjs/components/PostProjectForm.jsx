@@ -28,7 +28,7 @@ export default function PostProjectForm({ onSubmit }) {
         className="mb-2 p-2 border rounded w-full"
       />
       <input
-        type="number"
+        type="date"
         placeholder="Deadline"
         value={deadline}
         onChange={(e) => setDeadline(e.target.value)}
