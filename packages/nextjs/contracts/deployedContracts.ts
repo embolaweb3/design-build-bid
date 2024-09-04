@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     DesignBuildBid: {
-      address: "0x6d33d2769E9a4E108bDE18De5d7706EDF65D53F9",
+      address: "0x1cd3429d69b3717Cd93a19f38cbE18dA4E9b4366",
       abi: [
         {
           anonymous: false,
@@ -229,6 +229,19 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_projectId",
+              type: "uint256",
+            },
+          ],
+          name: "cancelProject",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
           inputs: [],
           name: "disputeCount",
           outputs: [
@@ -283,6 +296,24 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_projectId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_newDeadline",
+              type: "uint256",
+            },
+          ],
+          name: "extendDeadline",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
@@ -353,6 +384,19 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_projectId",
+              type: "uint256",
+            },
+          ],
+          name: "penalizeBidder",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
@@ -541,6 +585,39 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
+              name: "_projectId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "_description",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "_budget",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_deadline",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256[]",
+              name: "_milestones",
+              type: "uint256[]",
+            },
+          ],
+          name: "updateProject",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
               name: "_disputeId",
               type: "uint256",
             },
@@ -551,6 +628,19 @@ const deployedContracts = {
             },
           ],
           name: "voteOnDispute",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_projectId",
+              type: "uint256",
+            },
+          ],
+          name: "withdrawUnspentFunds",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
