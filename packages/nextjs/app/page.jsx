@@ -158,9 +158,9 @@ const Home = () => {
       const tx = await contract.updateProject(
         projectId,
         updatedData.description,
-        updatedData.budget,
-        updatedData.deadline,
-        updatedData.milestones
+        ethers.utils.parseEther(updatedData.budget),
+        Math.floor(new Date(updatedData.deadline).getTime() / 1000),
+        updatedData.milestones.map(milestone => ethers.utils.parseEther(milestone))
       );
       await tx.wait();
       alert('Project updated successfully');
@@ -206,20 +206,13 @@ const Home = () => {
 
         {projects.map((project) => (
           <>
-          
-          <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-        onClick={() => setShowExtendDeadlineModal(true)}
-      >
-        Extend Deadline
-      </button>
-      
       <ProjectCard 
             key={project.id}
             project={project}
             contract={contract}
             onUpdate={fetchProjects}
             address={address}
+            onUpdateProject={updateProjectDetails}
             onExtendDeadline={extendDeadline}
             onClick={() => setSelectedProject(project)}
           />
@@ -248,13 +241,6 @@ const Home = () => {
             Penalize Bidder
           </button>
         )}
-
-      {/* {showExtendDeadlineModal && (
-        <ExtendDeadlineForm
-          onSubmit={handleExtendDeadline}
-          onClose={() => setShowExtendDeadlineModal(false)}
-        />
-      )} */}
 
       </main>
     </div>

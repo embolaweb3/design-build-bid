@@ -56,7 +56,13 @@ export default function ProjectCard({ project, onUpdateProject, onExtendDeadline
             </ul>
           </div>
           <div className="mt-4">
-            <button onClick={() => setShowUpdateForm(true)}>Update Project Details</button>
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded-lg"
+              onClick={() => setShowUpdateForm(true)}
+            >
+              Update Project Details
+            </button>
+
             <button  type="button" 
               className="btn btn-primary mt-3"
               data-bs-toggle="modal" 
@@ -65,8 +71,17 @@ export default function ProjectCard({ project, onUpdateProject, onExtendDeadline
               <button onClick={() => setShowPenalizeForm(true)}>Penalize Bidder</button>
             )}
           </div>
-          {showUpdateForm && <UpdateProjectForm project={project} onSubmit={onUpdateProject} />}
-          {/* {showExtendForm && <ExtendDeadlineForm onSubmit={onExtendDeadline} />} */}
+          {/* {showUpdateForm && <UpdateProjectForm project={project} onSubmit={onUpdateProject} />} */}
+
+          {showUpdateForm && (
+            <UpdateProjectForm
+              onSubmit={onUpdateProject}
+              onClose={() => setShowUpdateForm(false)}
+              projectId={project.id}
+
+            />
+          )}
+          
           {showExtendForm && (
             <ExtendDeadlineForm
               onSubmit={onExtendDeadline}

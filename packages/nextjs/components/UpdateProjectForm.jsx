@@ -1,46 +1,94 @@
 import { useState } from 'react';
 import {ethers} from 'ethers'
 
-export default function UpdateProjectForm({ project, onSubmit }) {
-  const [description, setDescription] = useState(project.description);
-  const [budget, setBudget] = useState(ethers.utils.formatEther(project.budget));
-  const [deadline, setDeadline] = useState(new Date(project.deadline * 1000).toISOString().slice(0, 10));
-  const [milestones, setMilestones] = useState(project.milestones.map(m => ethers.utils.formatEther(m)));
+export default function UpdateProjectDetailsForm({ onSubmit, onClose,projectId }) {
+  const [description, setDescription] = useState('');
+  const [budget, setBudget] = useState('');
+  const [deadline, setDeadline] = useState('');
+  const [milestones, setMilestones] = useState(['']);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ description, budget, deadline, milestones });
+    onSubmit(projectId,{ description, budget, deadline, milestones });
+  };
+
+  const handleMilestoneChange = (index, value) => {
+    const newMilestones = [...milestones];
+    newMilestones[index] = value;
+    setMilestones(newMilestones);
+  };
+
+  const addMilestone = () => {
+    setMilestones([...milestones, '']);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Description:</label>
-        <input value={description} onChange={e => setDescription(e.target.value)} />
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 className="text-xl font-semibold mb-4">Update Project Details</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">Description:</label>
+            <textarea
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">Budget (ETH):</label>
+            <input
+              type="number"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">Deadline:</label>
+            <input
+              type="date"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">Milestones:</label>
+            {milestones.map((milestone, index) => (
+              <input
+                key={index}
+                type="number"
+                className="w-full px-4 py-2 border rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={milestone}
+                onChange={(e) => handleMilestoneChange(index, e.target.value)}
+              />
+            ))}
+            <button
+              type="button"
+              className="mt-2 px-4 py-2 bg-gray-500 text-white rounded-lg"
+              onClick={addMilestone}
+            >
+              Add Milestone
+            </button>
+          </div>
+          <div className="flex justify-end space-x-4">
+            <button
+              type="button"
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              Update
+            </button>
+          </div>
+        </form>
       </div>
-      <div>
-        <label>Budget (ETH):</label>
-        <input value={budget} onChange={e => setBudget(e.target.value)} />
-      </div>
-      <div>
-        <label>Deadline:</label>
-        <input type="date" value={deadline} onChange={e => setDeadline(e.target.value)} />
-      </div>
-      <div>
-        <label>Milestones (ETH):</label>
-        {milestones.map((milestone, index) => (
-          <input
-            key={index}
-            value={milestone}
-            onChange={e => {
-              const updatedMilestones = [...milestones];
-              updatedMilestones[index] = e.target.value;
-              setMilestones(updatedMilestones);
-            }}
-          />
-        ))}
-      </div>
-      <button type="submit">Update Project</button>
-    </form>
+    </div>
   );
 }
