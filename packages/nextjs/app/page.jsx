@@ -55,7 +55,8 @@ const Home = () => {
     cache: new InMemoryCache(),
   });
 
-  const retreiveProjects = gql`
+  // Query for fetching projects
+  const retrieveProjectsQuery = gql`
     query {
       ProjectPosted(first: 20) {
         projectId
@@ -63,6 +64,30 @@ const Home = () => {
         description
         budget
         deadline
+      }
+    }
+  `;
+
+  // Query for fetching bids submitted
+  const retrieveBidsQuery = gql`
+    query {
+      BidsSubmitted(first: 20) {
+        projectId
+        bidder
+        bidAmount
+        completionTime
+        milestones
+      }
+    }
+  `;
+
+  // Query for fetching disputes raised
+  const retrieveDisputesQuery = gql`
+    query {
+      DisputesRaised(first: 20) {
+        projectId
+        reason
+        disputeTime
       }
     }
   `;
