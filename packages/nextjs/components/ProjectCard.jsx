@@ -1,10 +1,18 @@
 import { useState } from 'react';
-import { ethers} from 'ethers'
+import { ethers } from 'ethers';
 import { motion } from 'framer-motion';
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import UpdateProjectForm from './UpdateProjectForm';
+import ExtendDeadlineForm from './ExtendDeadlineForm';
+import PenalizeBidderForm from './PenalizeBidderForm';
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, onUpdateProject, onExtendDeadline, onPenalizeBidder }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [showExtendForm, setShowExtendForm] = useState(false);
+  const [showPenalizeForm, setShowPenalizeForm] = useState(false);
+  const [showExtendDeadlineModal, setShowExtendDeadlineModal] = useState(false);
+
 
   const formattedMilestones = project.milestones.map((milestone) => ethers.utils.formatEther(milestone));
 
@@ -26,16 +34,15 @@ export default function ProjectCard({ project }) {
         </motion.button>
       </div>
       {isOpen && (
-        <motion.div 
-          initial={{ height: 0 }} 
-          animate={{ height: 'auto' }} 
+        <motion.div
+          initial={{ height: 0 }}
+          animate={{ height: 'auto' }}
           transition={{ duration: 0.5 }}
           className="mt-4 overflow-hidden"
         >
           <p><strong>Budget:</strong> {ethers.utils.formatEther(project.budget)} ETH</p>
           <p><strong>Deadline:</strong> {new Date(project.deadline * 1000).toLocaleDateString()}</p>
           <p><strong>Status:</strong> {project.active ? 'Active' : 'Closed'}</p>
-          <p><strong>Milestones:</strong> {project.active ? 'Active' : 'Closed'}</p>
           <p><strong>Selected Bidder:</strong> {project.selectedBidder !== ethers.constants.AddressZero ? selectedBidder : 'None'}</p>
           <p><strong>Dispute Raised:</strong> {project.disputeRaised ? 'Yes' : 'No'}</p>
           <div>
@@ -48,6 +55,26 @@ export default function ProjectCard({ project }) {
               ))}
             </ul>
           </div>
+          <div className="mt-4">
+            <button onClick={() => setShowUpdateForm(true)}>Update Project Details</button>
+            <button  type="button" 
+              className="btn btn-primary mt-3"
+              data-bs-toggle="modal" 
+              data-bs-target="#extendDeadlineModal" onClick={() => setShowExtendForm(true)}>Extend Deadline</button>
+            {project.selectedBidder !== ethers.constants.AddressZero && (
+              <button onClick={() => setShowPenalizeForm(true)}>Penalize Bidder</button>
+            )}
+          </div>
+          {showUpdateForm && <UpdateProjectForm project={project} onSubmit={onUpdateProject} />}
+          {/* {showExtendForm && <ExtendDeadlineForm onSubmit={onExtendDeadline} />} */}
+          {showExtendForm && (
+            <ExtendDeadlineForm
+              onSubmit={onExtendDeadline}
+              projectId={project.id}
+              onClose={() => setShowExtendForm(false)}
+            />
+          )}
+          {showPenalizeForm && <PenalizeBidderForm onSubmit={onPenalizeBidder} />}
         </motion.div>
       )}
     </motion.div>

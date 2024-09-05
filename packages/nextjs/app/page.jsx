@@ -1,41 +1,42 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
-import ProjectCard from '../components/ProjectCard'
+import ProjectCard from '../components/ProjectCard';
 import BidForm from '../components/BidForm';
 import DisputeForm from '../components/DisputeForm';
 import deployedContracts from "~~/contracts/deployedContracts";
 import PostProjectForm from '../components/PostProjectForm';
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import PenalizeBidderForm from '../components/PenalizeBidderForm';
+import ExtendDeadlineForm from '../components/ExtendDeadlineForm';
+
 
 const contractABI = deployedContracts[11155111].DesignBuildBid.abi;
 const contractAddress = deployedContracts[11155111].DesignBuildBid.address;
 
-let wallet
+let wallet;
 if (typeof window !== "undefined") {
-  wallet = window.ethereum; 
+  wallet = window.ethereum;
 }
 
-
-const Home =()=> {
+const Home = () => {
   const { address } = useAccount();
   const [projects, setProjects] = useState([]);
-  const [ retreivedProjects, setRetrievedProjects] = useState()
+  const [retreivedProjects, setRetrievedProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [contract, setContract] = useState(null)
+  const [contract, setContract] = useState(null);
+  const [showExtendDeadlineModal, setShowExtendDeadlineModal] = useState(false);
 
- 
   useEffect(() => {
-    if(!wallet) return
+    if (!wallet) return;
 
-    const provider = new ethers.providers.Web3Provider(wallet); 
-    const signer = provider.getSigner(); 
-    const contract = new ethers.Contract(contractAddress, contractABI, signer); 
-    setContract(contract)
+    const provider = new ethers.providers.Web3Provider(wallet);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(contractAddress, contractABI, signer);
+    setContract(contract);
     fetchProjects();
-
   });
 
   useEffect(() => {
@@ -45,10 +46,9 @@ const Home =()=> {
         setRetrievedProjects(res.data.ProjectPosted);
       })
       .catch(error => {
-        console.error("Error fetching notarized documents:", error);
+        console.error("Error fetching projects:", error);
       });
-    })
-    
+  }, []);
 
   const apolloClient = new ApolloClient({
     uri: "https://api.studio.thegraph.com/query/87090/design-build-bid/version/latest",
@@ -56,30 +56,19 @@ const Home =()=> {
   });
 
   const retreiveProjects = gql`
-  query {
-    ProjectPosted(first: 20) {
-      projectId
-      owner
-      description
-      budget
-      deadline
+    query {
+      ProjectPosted(first: 20) {
+        projectId
+        owner
+        description
+        budget
+        deadline
+      }
     }
-  }
-`;
+  `;
 
-
-const retrieveBids = gql`
-query {
-   bidSubmitteds(first: 10) {
-    id
-    bidId
-    projectId
-    bidder
-  }
-}
-`;
   const fetchProjects = async () => {
-    if(!contract) return
+    if (!contract) return;
 
     const projects = await contract.fetchProjects();
     setProjects(projects);
@@ -97,7 +86,7 @@ query {
       );
       await tx.wait();
       alert('Bid submitted successfully');
-      fetchProjects(); // Refresh projects to update state
+      fetchProjects();
     } catch (error) {
       console.error("Error submitting bid:", error);
     }
@@ -112,12 +101,12 @@ query {
       const tx = await contract.postProject(
         description,
         ethers.utils.parseEther(budget),
-        Math.floor(new Date(deadline).getTime() / 1000), // Convert deadline to Unix timestamp
-        milestones.map(milestone => ethers.utils.parseEther(milestone)) // Convert milestones to wei
+        Math.floor(new Date(deadline).getTime() / 1000),
+        milestones.map(milestone => ethers.utils.parseEther(milestone))
       );
       await tx.wait();
       alert('Project posted successfully');
-      fetchProjects(); // Refresh projects to include the newly posted project
+      fetchProjects();
     } catch (error) {
       console.error("Error posting project:", error);
     }
@@ -130,23 +119,113 @@ query {
       const tx = await contract.raiseDispute(selectedProject.id, disputeData.reason);
       await tx.wait();
       alert('Dispute raised successfully');
-      fetchProjects(); // Refresh projects to update state
+      fetchProjects();
     } catch (error) {
       console.error("Error raising dispute:", error);
+    }
+  };
+
+  const withdrawUnspentFunds = async (projectId) => {
+    if (!contract) return;
+
+    try {
+      const tx = await contract.withdrawUnspentFunds(projectId);
+      await tx.wait();
+      alert('Unspent funds withdrawn successfully');
+      fetchProjects();
+    } catch (error) {
+      console.error("Error withdrawing unspent funds:", error);
+    }
+  };
+
+  const cancelProject = async (projectId) => {
+    if (!contract) return;
+
+    try {
+      const tx = await contract.cancelProject(projectId);
+      await tx.wait();
+      alert('Project canceled successfully');
+      fetchProjects();
+    } catch (error) {
+      console.error("Error canceling project:", error);
+    }
+  };
+
+  const updateProjectDetails = async (projectId, updatedData) => {
+    if (!contract) return;
+
+    try {
+      const tx = await contract.updateProject(
+        projectId,
+        updatedData.description,
+        updatedData.budget,
+        updatedData.deadline,
+        updatedData.milestones
+      );
+      await tx.wait();
+      alert('Project updated successfully');
+      fetchProjects();
+    } catch (error) {
+      console.error("Error updating project details:", error);
+    }
+  };
+
+
+  const extendDeadline = async (projectId, newDeadline) => {
+    if (!contract) return;
+
+    try {
+      const tx = await contract.extendDeadline(projectId, newDeadline);
+      await tx.wait();
+      alert('Deadline extended successfully');
+      fetchProjects();
+    } catch (error) {
+      console.error("Error extending deadline:", error);
+    }
+  };
+
+  const penalizeBidder = async (projectId) => {
+    if (!contract) return;
+
+    try {
+      const tx = await contract.penalizeBidder(projectId);
+      await tx.wait();
+      alert('Bidder penalized successfully');
+      fetchProjects();
+    } catch (error) {
+      console.error("Error penalizing bidder:", error);
     }
   };
 
   return (
     <div className="bg-gradient-to-br from-gray-200 to-gray-400 min-h-screen">
       <main className="container mx-auto p-4 space-y-6">
-      <PostProjectForm onSubmit={postProject} />
+        <PostProjectForm onSubmit={postProject} />
+        <PenalizeBidderForm onSubmit={penalizeBidder} />
 
-        {projects?.map((project) => (
-          <ProjectCard 
-          key={project.id}
-           project={project}
-           onClick={() => setSelectedProject(project)}
-           />
+
+        {projects.map((project) => (
+          <>
+          
+          <button
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+        onClick={() => setShowExtendDeadlineModal(true)}
+      >
+        Extend Deadline
+      </button>
+      
+      <ProjectCard 
+            key={project.id}
+            project={project}
+            contract={contract}
+            onUpdate={fetchProjects}
+            address={address}
+            onExtendDeadline={extendDeadline}
+            onClick={() => setSelectedProject(project)}
+          />
+      </>
+       
+          
         ))}
 
         {selectedProject && (
@@ -156,9 +235,30 @@ query {
         {selectedProject && (
           <DisputeForm onSubmit={raiseDispute} />
         )}
+
+        
+
+        {selectedProject && (
+          <button 
+            type="button" 
+            className="btn btn-warning mt-3"
+            data-bs-toggle="modal" 
+            data-bs-target="#penalizeBidderModal"
+          >
+            Penalize Bidder
+          </button>
+        )}
+
+      {/* {showExtendDeadlineModal && (
+        <ExtendDeadlineForm
+          onSubmit={handleExtendDeadline}
+          onClose={() => setShowExtendDeadlineModal(false)}
+        />
+      )} */}
+
       </main>
     </div>
   );
-}
+};
 
-export default Home
+export default Home;
